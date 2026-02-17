@@ -11,7 +11,6 @@ import { AdminProductPage } from "./admin/pages/product/AdminProductPage";
 import { lazy } from "react";
 import {
   AdminRoute,
-  AuthenticatedRouted,
   NotAuthenticatedRouted,
 } from "./components/routes/ProtectedRoutes";
 

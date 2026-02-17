@@ -10,7 +10,7 @@ import { Link, useParams, useSearchParams } from "react-router";
 export const CustomHeader = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { user, authStatus, isAdmin, logout } = useAuthStore();
+  const { authStatus, isAdmin, logout } = useAuthStore();
 
   const { gender } = useParams(); //este viene segmento de ruta obligatorios
 

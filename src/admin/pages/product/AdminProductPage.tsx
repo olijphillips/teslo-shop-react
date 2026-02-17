@@ -1,19 +1,23 @@
 // https://github.com/Klerith/bolt-product-editor
 
-import { Navigate, useNavigate, useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 
 import { useProduct } from "@/admin/hooks/useProduct";
 import { CustomFullScreenLoading } from "@/components/custom/CustomFullScreenLoading";
 import { ProductForm } from "./ui/ProductForm";
 import type { Product } from "@/interfaces/product.interface";
-import { toast } from "sonner";
 
 export const AdminProductPage = () => {
   const { id } = useParams();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const { isLoading, isError, data: product, mutation } = useProduct(id || "");
+  const {
+    isLoading,
+    isError,
+    data: product,
+    mutation: productMutation,
+  } = useProduct(id || "");
 
   //console.log({ mutation: mutation.isPending });
 
@@ -23,29 +27,10 @@ export const AdminProductPage = () => {
       ? "Aquí puedes crear un nuevo producto."
       : "Aquí puedes editar el producto.";
 
-  const handleSaveProduct = (
+  const handleSaveProduct = async (
     productLike: Partial<Product> & { files?: File[] },
   ) => {
-    mutation.mutate(productLike, {
-      onSuccess: (data) => {
-        toast.success("Producto actualizado correctamente", {
-          position: "top-right",
-        });
-        // Remover esta línea, ya que el invalidateQueries causará un re-render
-        // y el componente ya tiene el producto actualizado
-        // navigate(`/admin/products/${data.id}`);
-      },
-      onError: (error: any) => {
-        console.error("Error completo:", error);
-        console.error("Response data:", error.response?.data);
-        toast.error(
-          error.response?.data?.message || "Error al actualizar el producto",
-          {
-            position: "top-right",
-          },
-        );
-      },
-    });
+    productMutation.mutate(productLike);
   };
 
   if (isError) {
@@ -66,7 +51,7 @@ export const AdminProductPage = () => {
       subTitle={subtitle}
       product={product}
       onSubmit={handleSaveProduct}
-      isPending={mutation.isPending}
+      isPending={productMutation.isPending}
     />
   );
 };

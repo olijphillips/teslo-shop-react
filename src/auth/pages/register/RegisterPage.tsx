@@ -14,7 +14,7 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isPosting, setIsPosting] = useState(false);
+  const [_isPosting, setIsPosting] = useState(false);
 
   const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
